@@ -14,8 +14,9 @@ export default function CommandView() {
 
     const getHistory = async () => {
         try {
+            const url = import.meta.env.VITE_SERVER_URL;
             const response = await axios.get(
-                `http://localhost:8000/api/bot/history/${historyId}/`,
+                `${url}/api/bot/history/${historyId}/`,
                 {
                     headers: { 'Authorization': `Token ${token}` }
                 }
@@ -40,7 +41,7 @@ export default function CommandView() {
     useEffect(() => {
         getHistory(); // Ejecutar inmediatamente
         
-        const intervalId = setInterval(getHistory, 1000);
+        const intervalId = setInterval(getHistory, 5000);
         
         return () => clearInterval(intervalId);
     }, [historyId, token]);

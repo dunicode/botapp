@@ -12,7 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { AuthContext } from '../contexts/AuthContext.jsx';
 
-export default function Home() {
+export default function CommandList() {
   const { isAuthenticated, logout, token } = useContext(AuthContext);
   const [history, setHistory] = useState([]);
   let navigate = useNavigate();
@@ -20,7 +20,8 @@ export default function Home() {
   const getHistory = async (e) => {
     e.preventDefault();
     
-    await axios.get("http://localhost:8000/api/bot/history/list/", {headers:{
+    const url = import.meta.env.VITE_SERVER_URL;
+    await axios.get(url + "/api/bot/history/list/", {headers:{
       'Authorization': `Token ${token}`
     }})
     .then(function (response) {

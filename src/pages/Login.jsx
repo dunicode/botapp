@@ -22,7 +22,8 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        await axios.post("http://localhost:8000/api/auth/login/", formData)
+        const url = import.meta.env.VITE_SERVER_URL;
+        await axios.post(url + "/api/auth/login/", formData)
         .then(function (response) {
             if (response.data && response.data.token) {
                 login(response.data.token);

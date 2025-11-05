@@ -35,7 +35,8 @@ export default function Command() {
     const getRaspberries = async (e) => {
         e.preventDefault();
         
-        await axios.get("http://localhost:8000/api/bot/raspberries/list/", {headers:{
+        const url = import.meta.env.VITE_SERVER_URL;
+        await axios.get(url + "/api/bot/raspberries/list/", {headers:{
         'Authorization': `Token ${token}`
         }})
         .then(function (response) {
@@ -49,7 +50,8 @@ export default function Command() {
     const getCommands = async (e) => {
         e.preventDefault();
         
-        await axios.get("http://localhost:8000/api/bot/commands/list/", {headers:{
+        const url = import.meta.env.VITE_SERVER_URL;
+        await axios.get(url + "/api/bot/commands/list/", {headers:{
         'Authorization': `Token ${token}`
         }})
         .then(function (response) {
@@ -63,7 +65,8 @@ export default function Command() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        await axios.post("http://localhost:8000/api/bot/history/", formData, {headers:{
+        const url = import.meta.env.VITE_SERVER_URL;
+        await axios.post(url + "/api/bot/history/", formData, {headers:{
             'Authorization': `Token ${token}`
         }})
         .then(function (response) {
