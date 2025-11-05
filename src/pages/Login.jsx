@@ -5,6 +5,7 @@ import { AuthContext } from '../contexts/AuthContext.jsx';
 
 export default function Login() {
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false); // Estado de carga
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -21,21 +22,25 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); // Iniciar carga
         
         const url = import.meta.env.VITE_SERVER_URL;
-        await axios.post(url + "/api/auth/login/", formData)
-        .then(function (response) {
+        
+        try {
+            const response = await axios.post(url + "/api/auth/login/", formData);
             if (response.data && response.data.token) {
                 login(response.data.token);
                 navigate('/commands');
             }
             setFormData({ email: '', password: '' });
             setMessage('');
-        }).catch(function (error) {
+        } catch (error) {
             console.log(JSON.parse(error.request.response).message);
-            setFormData({ email: formData.email, password: '' });
+            setFormData(prev => ({ ...prev, password: '' }));
             setMessage(JSON.parse(error.request.response).message);
-        });     
+        } finally {
+            setLoading(false); // Finalizar carga (éxito o error)
+        }    
     };
 
     return (
@@ -54,6 +59,7 @@ export default function Login() {
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        disabled={loading} // Opcional: deshabilitar inputs
                     />
                 </div>
                 
@@ -66,12 +72,19 @@ export default function Login() {
                         value={formData.password}
                         onChange={handleChange}
                         required
+                        disabled={loading} // Opcional: deshabilitar inputs
                     />
                 </div>
 
                 <div className="form-group form-error">{message}</div>
                 
-                <button type="submit" className="submit-btn">Login</button>
+                <button 
+                    type="submit" 
+                    className="submit-btn"
+                    disabled={loading} // Deshabilitar botón durante carga
+                >
+                    {loading ? 'Iniciando sesión...' : 'Login'} {/* Texto dinámico */}
+                </button>
             </form>
         </div>
     );
