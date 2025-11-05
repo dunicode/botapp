@@ -47,7 +47,11 @@ export default function CommandView() {
     }, [historyId, token]);
 
     if (loading) {
-        return <div>Cargando historia...</div>;
+        return (
+            <div className="page-container">
+                <h2>Cargando historia...</h2>
+            </div>
+        )
     }
 
     if (!history) {

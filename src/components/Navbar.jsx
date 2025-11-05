@@ -15,7 +15,7 @@ export default function Navbar() {
     return (
         <nav className="navbar">
             <div className="nav-container">
-                <h1>BOTBRAIN</h1>
+                <h1>BOTAPP</h1>
                 <ul className="nav-links">
                     {isAuthenticated && (
                         <>
